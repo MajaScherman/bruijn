@@ -5,6 +5,7 @@ public class PrimeBruijn {
 	private int field;
 	private int[] polynomial;
 	private int[] register = { 0, 0, 0, 1 };
+	private int testcounter = 0;
 
 	public PrimeBruijn(int field, int[] polynomial) {
 		this.field = field;
@@ -17,38 +18,42 @@ public class PrimeBruijn {
 		int s1 = 0;
 		for (i = 0; i < register.length; i++) {
 			if (polynomial[i] != 0) {
-				s1 += register[i] * polynomial[i] % field;
+				s1 += (register[i] * polynomial[i]) % field;
 				s1 = s1 % field;
 			}
 		}
-		int nonlinear = Nonlinear(s1);
-		return (s1 + nonlinear) % field;
+//		return (s1 * polynomial[4]) % field;
+		int nonlinear = Nonlinear();
+		return ((s1 + nonlinear)*polynomial[4]) % field; 
 	}
 
-	private int Nonlinear(int s1) {
+	private int Nonlinear() {
 		int nonlinear = 0;
-		if(field == 2){
-			if(register[0] == 1 && register[1] == 0 && register[2] == 0 && register[3] == 0 ){
+		if (field == 2) {
+			if (register[0] == 1 && register[1] == 0 && register[2] == 0 && register[3] == 0) {
 				nonlinear = 1;
-			} else if(register[0] == 0 && register[1] == 0 && register[2] == 0 && register[3] == 0 ){
+			} else if (register[0] == 0 && register[1] == 0 && register[2] == 0 && register[3] == 0) {
 				nonlinear = 1;
-			} else{
+			} else {
 				nonlinear = 0;
 			}
-		} else if(field == 5){
-			if(register[0] == 1 && register[1] == 0 && register[2] == 0 && register[3] == 0 ){
-				nonlinear = 4;
-			} else if(register[0] == 0 && register[1] == 0 && register[2] == 0 && register[3] == 0 ){
-				nonlinear = 1;
-			} else{
+		} else if (field == 5) {
+			if (register[0] == 2 && register[1] == 0 && register[2] == 0 && register[3] == 0) {
+				nonlinear = 3;// (2 + X)*3 % 5 = 0 -> x =3
+			} else if (register[0] == 0 && register[1] == 0 && register[2] == 0 && register[3] == 0) {
+				nonlinear = 2; // (0 + X)*3 % 5 = 1 -> x=2
+			} else {
 				nonlinear = 0;
 			}
 		}
-		
+
 		return nonlinear;
 	}
 
 	public int shift() {
+//		System.out
+//				.println(testcounter + " : " + register[0] + " " + register[1] + " " + register[2] + " " + register[3]);
+		testcounter++;
 		int i = 0;
 		int newS1 = arithmetic();
 		int value = register[i];
@@ -56,13 +61,17 @@ public class PrimeBruijn {
 			register[i] = register[i + 1];
 		}
 		register[i] = newS1;
+
+		
 		return value;
 	}
 
 	public void shiftCykle() {
 		int i = 0;
-		for (i = 0; i < Math.pow(field, register.length) + 5; i++) {
-			System.out.print(shift());
+		for (i = 0; i < Math.pow(field, register.length); i++) {
+			shift();
+			//System.out.print(shift());
 		}
 	}
+
 }
