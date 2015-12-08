@@ -33,7 +33,7 @@ public class Bruijn {
 			s += ss + "";
 		}
 		s += "000";
-		System.out.println(s.length());
+		System.out.println("length: " + s.length());
 		save(s);
 	}
 
@@ -42,7 +42,7 @@ public class Bruijn {
 		try {
 			writer = new PrintWriter("Sequence.txt");
 			writer.println(s);
-			System.out.println(s);
+			System.out.println("Sequence: " + s);
 			writer.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

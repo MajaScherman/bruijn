@@ -5,7 +5,6 @@ public class PrimeBruijn {
 	private int field;
 	private int[] polynomial;
 	private int[] register = { 0, 0, 0, 1 };
-	private int testcounter = 0;
 
 	public PrimeBruijn(int field, int[] polynomial) {
 		this.field = field;
@@ -22,7 +21,6 @@ public class PrimeBruijn {
 				s1 = s1 % field;
 			}
 		}
-//		return (s1 * polynomial[4]) % field;
 		int nonlinear = Nonlinear();
 		return ((s1 + nonlinear)*polynomial[4]) % field; 
 	}
@@ -51,9 +49,6 @@ public class PrimeBruijn {
 	}
 
 	public int shift() {
-//		System.out
-//				.println(testcounter + " : " + register[0] + " " + register[1] + " " + register[2] + " " + register[3]);
-		testcounter++;
 		int i = 0;
 		int newS1 = arithmetic();
 		int value = register[i];
@@ -70,7 +65,6 @@ public class PrimeBruijn {
 		int i = 0;
 		for (i = 0; i < Math.pow(field, register.length); i++) {
 			shift();
-			//System.out.print(shift());
 		}
 	}
 
